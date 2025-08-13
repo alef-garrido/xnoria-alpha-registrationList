@@ -1,12 +1,22 @@
-# xnoria-alpha-registrationList
-Registration system for xnoria project
+# Overview
 
 This is a full-stack web application built with React, Express, and PostgreSQL that implements a role-based user management system with invitation-based registration. The application features an admin dashboard for managing users and invitation codes, along with email/password authentication.
 
 The system operates on an invitation-only model where administrators can generate invitation codes that new users must provide during registration. Once registered, users are directed to role-specific dashboards (admin or regular user).
 
+## Authentication Credentials
 
-## System Architecture
+**Demo Admin Account:**
+- Email: admin@example.com
+- Password: admin123
+
+**Test Invitation Code:** INV-R7QC0CO0K (valid for new user registration)
+
+# User Preferences
+
+Preferred communication style: Simple, everyday language.
+
+# System Architecture
 
 ## Frontend Architecture
 
