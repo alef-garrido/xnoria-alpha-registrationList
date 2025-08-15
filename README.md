@@ -5,7 +5,6 @@ This is a full-stack web application built with React, Express, and PostgreSQL t
 
 The system operates on an invitation-only model where administrators can generate invitation codes that new users must provide during registration. Once registered, users are directed to role-specific dashboards (admin or regular user).
 
-
 ## System Architecture
 
 ## Frontend Architecture
