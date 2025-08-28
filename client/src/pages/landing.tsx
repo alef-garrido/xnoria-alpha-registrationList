@@ -58,11 +58,14 @@ export default function Landing() {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-md w-full space-y-8">
+        <div className="flex justify-center">
+          <img src="/logo.png" alt="Xnoria Logo" className="h-20 w-auto" />
+        </div>
         <Card className="shadow-md">
           <CardContent className="p-8">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-              <p className="text-gray-600">Sign in to your account</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Xnoria</h1>
+              <p className="text-gray-600">Sign in to continue</p>
             </div>
             
             <Form {...form}>
@@ -79,7 +82,7 @@ export default function Landing() {
                         <Input
                           {...field}
                           type="email"
-                          placeholder="admin@example.com"
+                          placeholder="email@example.com"
                           className="w-full"
                           data-testid="input-email"
                         />
