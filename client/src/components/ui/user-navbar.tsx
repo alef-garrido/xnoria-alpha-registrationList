@@ -1,8 +1,6 @@
 
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { User, LogOut } from 'lucide-react';
 
 export function UserNavbar({
   className,
@@ -15,7 +13,8 @@ export function UserNavbar({
         className
       )}
       {...props}
-    >
+      >
+      <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
       <Link
         href="/dashboard"
         className="text-sm font-medium transition-colors hover:text-primary"

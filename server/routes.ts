@@ -1,9 +1,21 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { getSession, isAuthenticated, isAdmin, hashPassword, verifyPassword } from "./auth";
 import { registerUserSchema, loginSchema } from "@shared/schema";
 import { z } from "zod";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: {
+        id: string;
+        email: string;
+        role: string;
+      };
+    }
+  }
+}
 
 function generateInvitationCode(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -67,7 +79,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: "Invalid input", errors: error.errors });
+        return res.status(400).json({ message: "Invalid input", errors: error.issues });
       }
       console.error("Login error:", error);
       res.status(500).json({ message: "Login failed" });
@@ -132,7 +144,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ message: "User registered successfully", user: userWithoutPassword });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: "Invalid input", errors: error.errors });
+        return res.status(400).json({ message: "Invalid input", errors: error.issues });
       }
       console.error("Registration error:", error);
       res.status(500).json({ message: "Registration failed" });
