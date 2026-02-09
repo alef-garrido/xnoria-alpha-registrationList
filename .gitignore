@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.env
+/.vite
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -416,3 +417,15 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Temporary test files
+test-password.ts
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
