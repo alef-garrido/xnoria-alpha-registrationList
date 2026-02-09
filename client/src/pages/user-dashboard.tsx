@@ -142,7 +142,7 @@ export default function UserDashboard() {
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
       <div className="border-b">
-        <div className="flex h-16 items-center px-4">
+        <div className="flex h-16 items-center px-4 justify-center">
           <UserNavbar className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
             <span className="text-sm text-gray-700" data-testid="text-user-email">{user?.email}</span>
@@ -168,7 +168,7 @@ export default function UserDashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        {location === "/dashboard" && <DashboardContent user={user} />}
+        {location === "/dashboard" ? <DashboardContent user={user} /> : null}
         <Route path="/dashboard/consulta" component={Consulta} />
         <Route path="/dashboard/entrenamiento" component={Entrenamiento} />
         <Route path="/dashboard/agente" component={Agente} />
