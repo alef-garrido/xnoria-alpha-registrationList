@@ -41,17 +41,20 @@ cd xnoria-alpha-registrationList
 pnpm install
 ```
 
-3. Set up environment variables in `server/` directory:
+3. Set up environment variables:
 ```bash
 cp .env.example .env
 ```
 
-Update `.env` with your configuration:
+Update `.env` with your configuration (this file is at the root directory):
 ```env
 DATABASE_URL=postgres://user:password@localhost:5432/authfortress
 PORT=5000
 SESSION_SECRET=your-long-random-secret-key
+GEMINI_APUI_KEY=your-api-key-if-needed
 ```
+
+**Note:** The `.env` file is also copied to `server/` for package-level development.
 
 4. Run database migrations:
 ```bash
@@ -182,36 +185,76 @@ For local development, an admin user is automatically seeded:
 
 View/manage database with Drizzle Studio:
 ```bash
-npm run db:studio
+pnpm db:studio
 ```
 
 Create a new migration:
 ```bash
-npm run db:generate
+pnpm --filter server db:generate
 ```
 
 ### Running Tests
 
 ```bash
-npm run test
+pnpm test
+```
+
+Test a specific package:
+```bash
+pnpm --filter client test
+pnpm --filter server test
 ```
 
 ### Building for Production
 
 ```bash
-npm run build
+pnpm build
+```
+
+Then run the production server:
+```bash
+pnpm start
 ```
 
 ## Troubleshooting
 
 ### Database Connection Issues
-Ensure PostgreSQL is running and `DATABASE_URL` is correctly configured.
+Ensure PostgreSQL is running and `DATABASE_URL` is correctly configured in `.env`.
 
 ### API Proxy Errors
-The Vite dev server proxies `/api` requests to `http://localhost:5000`. Ensure both servers are running.
+The Vite dev server proxies `/api` requests to `http://localhost:5000`. Ensure both servers are running:
+- Frontend: `pnpm --filter client dev`
+- Backend: `pnpm --filter server dev`
+
+Or simply use: `pnpm dev` to run both in parallel.
 
 ### Session Issues
 Clear browser cookies and try logging in again. Session data is stored in PostgreSQL.
+
+### Missing Dependencies
+If you see module errors, ensure you've run `pnpm install` and that both `node_modules` directories exist:
+- Root: `node_modules/`
+- Package-specific: `client/node_modules/`, `server/node_modules/`, `shared/node_modules/`
+
+### Frontend Shows 404
+Ensure the Vite dev server is running on `http://localhost:5173`. Check that:
+1. You've run `pnpm install`
+2. The `.env` file exists in the root directory
+3. No TypeScript errors in `client/src/`
+
+### Accessing the Application
+
+1. **Login Page**: Navigate to `http://localhost:5173/`
+   - Use the default admin credentials: `admin@example.com` / `admin123`
+   - Or register with a valid invitation code
+
+2. **Admin Dashboard**: Available at `/admin` for users with admin role
+   - Generate and manage invitation codes
+   - View user statistics
+   - Manage user roles
+
+3. **User Dashboard**: Available at `/user` for all authenticated users
+   - View personal account information
 
 ## Security Notes
 
@@ -222,5 +265,7 @@ Clear browser cookies and try logging in again. Session data is stored in Postgr
 - Validate invitation codes are single-use only
 
 ## License
-
 MIT
+
+## Credits
+Created by Armando Garrido (alef lemat) - [GitHub](https://github.com/alef-garrido)
