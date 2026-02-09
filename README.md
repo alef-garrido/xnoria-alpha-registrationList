@@ -16,6 +16,7 @@ A full-stack authentication and user registration system with admin dashboard, b
 - **Frontend**: React, TypeScript, Vite, TailwindCSS, Shadcn/ui
 - **Backend**: Express, TypeScript, Drizzle ORM
 - **Database**: PostgreSQL
+- **Package Manager**: pnpm (monorepo)
 - **Auth**: bcrypt, express-session
 - **Testing**: Vitest, React Testing Library
 
@@ -25,7 +26,7 @@ A full-stack authentication and user registration system with admin dashboard, b
 
 - Node.js 18+
 - PostgreSQL 12+
-- npm or yarn
+- pnpm 8+ (or install with `npm install -g pnpm`)
 
 ### Installation
 
@@ -35,12 +36,12 @@ git clone <repository-url>
 cd xnoria-alpha-registrationList
 ```
 
-2. Install dependencies:
+2. Install dependencies with pnpm:
 ```bash
-npm install
+pnpm install
 ```
 
-3. Set up environment variables:
+3. Set up environment variables in `server/` directory:
 ```bash
 cp .env.example .env
 ```
@@ -54,12 +55,12 @@ SESSION_SECRET=your-long-random-secret-key
 
 4. Run database migrations:
 ```bash
-npm run db:push
+pnpm db:push
 ```
 
-5. Start the development server:
+5. Start the development servers:
 ```bash
-npm run dev
+pnpm dev
 ```
 
 The app will be available at:
@@ -68,33 +69,66 @@ The app will be available at:
 
 ## Available Scripts
 
-- `npm run dev` - Start both frontend and backend in development mode
-- `npm run build` - Build frontend for production
-- `npm run preview` - Preview production build locally
-- `npm run test` - Run tests
-- `npm run lint` - Run linter (if configured)
-- `npm run db:push` - Apply database migrations
-- `npm run db:studio` - Open Drizzle Studio for database management
+### Root workspace commands
+- `pnpm dev` - Start both frontend and backend in parallel
+- `pnpm build` - Build both packages for production
+- `pnpm test` - Run tests across all packages
+- `pnpm coverage` - Generate test coverage reports
+- `pnpm check` - Run TypeScript type checking
+
+### Package-specific commands
+- `pnpm --filter client dev` - Start only frontend dev server
+- `pnpm --filter server dev` - Start only backend dev server
+- `pnpm --filter client build` - Build frontend for production
+- `pnpm --filter server build` - Build backend for production
+
+### Database commands
+- `pnpm db:push` - Apply database migrations
+- `pnpm db:studio` - Open Drizzle Studio for database management
 
 ## Project Structure
 
 ```
-├── client/                 # React frontend
+├── client/                 # React frontend package
 │   ├── src/
 │   │   ├── components/    # Reusable UI components
 │   │   ├── pages/         # Page components
 │   │   ├── lib/           # Utilities and API client
 │   │   └── __tests__/     # Component tests
-├── server/                # Express backend
+│   ├── package.json
+│   └── tsconfig.json
+├── server/                # Express backend package
 │   ├── routes.ts          # API routes
 │   ├── auth.ts            # Authentication middleware
 │   ├── storage.ts         # Database operations
-│   └── index.ts           # Server entry point
-├── shared/                # Shared types and schemas
-│   └── schema.ts          # Zod schemas and types
+│   ├── index.ts           # Server entry point
+│   ├── package.json
+│   └── tsconfig.json
+├── shared/                # Shared types and schemas package
+│   ├── schema.ts          # Zod schemas and types
+│   ├── package.json
+│   └── tsconfig.json
 ├── migrations/            # Database migrations
-└── package.json
+├── pnpm-workspace.yaml    # pnpm monorepo configuration
+├── tsconfig.json          # Root TypeScript configuration
+└── .env.example           # Environment variables template
 ```
+
+## Monorepo Structure
+
+This project uses **pnpm workspaces** to manage three interconnected packages:
+
+- **client**: React frontend application
+- **server**: Express backend application  
+- **shared**: Shared TypeScript types and Zod schemas
+
+All packages share dependencies and can reference each other using workspace imports (e.g., `import { schema } from "shared"`).
+
+### Benefits of pnpm monorepo:
+- 🔗 Workspace symlinks for local package references
+- 📦 Reduced disk usage with hardlink store
+- ⚡ Faster installs and CI/CD
+- 🎯 Cleaner dependency management per package
 
 ## API Routes
 
